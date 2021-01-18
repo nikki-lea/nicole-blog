@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[7],{55:function(t,n,e){"use strict";e.r(n),n.default={title:"Congratulations on Your New Blog!",tags:["react","navi"],spoiler:"Learn how to add new posts and tweak the theme to your liking.",getContent:()=>e.e(4).then(e.bind(null,50))}}}]);
-//# sourceMappingURL=7.72158fa6.chunk.js.map
