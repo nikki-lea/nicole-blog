@@ -13,6 +13,7 @@ function BlogIndexPage({ blogRoot, pageCount, pageNumber, postRoutes }) {
         <h1 className={styles.title}>
           <Link href={blogRoot}>{siteMetadata.title}</Link>
         </h1>
+        <div className={styles.line}></div>
         <Bio />
       </header>
       <ul className={styles.articlesList}>
@@ -31,12 +32,14 @@ function BlogIndexPage({ blogRoot, pageCount, pageNumber, postRoutes }) {
       )}
       <footer className={styles.footer}>
         <div>
-          <a href="/rss.xml" target="_blank" style={{ float: 'right' }}>
-            RSS
-          </a>
-          <Link href="/about">About</Link> &bull; <Link href="/tags">Tags</Link>{' '}
+          <Link href="/about">About</Link> &bull; 
+          <a href="https://www.linkedin.com/in/nicole-bauer-23728039">LinkedIn</a>
           &bull;{' '}
-          <a href="https://github.com/frontarm/create-react-blog">Source</a>
+          <a href="https://github.com/nikki-lea">GitHub</a>
+          &bull;{' '}
+          <Link href="/tags">Tags</Link>{' '}
+          &bull;{' '}
+          <a href="https://github.com/frontarm/create-react-blog">Create React Blog</a>
         </div>
       </footer>
     </div>

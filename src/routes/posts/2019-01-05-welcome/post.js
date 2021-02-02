@@ -1,6 +1,6 @@
 export default {
-  title: `Congratulations on Your New Blog!`,
-  tags: ['react', 'navi'],
-  spoiler: "Learn how to add new posts and tweak the theme to your liking.",
+  title: `State Based Rendering of React Components`,
+  tags: ['react'],
+  spoiler: "One way to conditionally render components given a set of predicates and a state.",
   getContent: () => import('./document.mdx'),
 }
