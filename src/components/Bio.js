@@ -15,7 +15,7 @@ function Bio(props) {
     `}>
       <img src={photoURL} alt="Me" />
       <p>
-      I'm a front end developer with a focus on React/Redux. This is my blog on tech related findings.
+      I'm a front end developer interested in ReactJS and NodeJS. This is my blog on tech related findings.
       </p>
     </div>
   )
