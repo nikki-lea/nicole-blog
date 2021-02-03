@@ -1,0 +1,89 @@
+import styles from './document.module.css'
+
+<div className={styles["Welcome"]}>
+
+## Conditionally rendering can be not very dry
+
+A common pattern I have seen show up multiple times is the need to render components differently based on predicates and state.
+
+In this example, we have the following functions that render cats, dogs, and birds.
+
+```jsx
+const renderBirds = (petName) => {
+  return <h1>Bird: ${petName}</h1>;
+};
+
+const renderCats = (petName) => {
+  return <h2>Cat: ${petName}</h2>;
+};
+
+const renderDogs = (petName) => {
+  return <h3>Dog: ${petName}</h3>;
+};
+```
+
+One option is to write JSX like so
+
+```jsx
+render() {
+  return (
+    <div>
+      {props.description !== 'fluffy' && !(props.likes.includes('walks')) ? this.renderBirds(props.petName) : ''}
+      {props.description === 'fluffy' && !(props.likes.includes('walks')) ? this.renderCats(props.petName) : ''}
+      {props.description === 'fluffy' && props.likes.includes('walks') ? this.renderDogs(props.petName) : ''}
+    </div>
+  );
+}
+```
+This is not very dry, a bit verbose, and doesn't scale very well if you need to add more predicates later on. 
+
+
+## A solution using functional javascript
+
+We can pull out the repeated parts, the predicates, into their own functions as follows
+
+```jsx
+const isFluffy = ({ description }) => description === 'fluffy';
+const isNotFluffy = ({ description }) => !isFluffy({ description });
+const likesWalks = ({ likes }) => likes.includes('walks');
+const doesNotLikeWalks = ({ likes }) => !likesWalks({ likes });
+
+```
+
+Now we just need a map of what render functions we want to run based on the predicates
+
+```jsx
+const petRendering = [
+  {
+    renderFunction: renderBirds,
+    predicates: [isNotFluffy, doesNotLikeWalks]
+  },
+  {
+    renderFunction: renderCats,
+    predicates: [isFluffy, doesNotLikeWalks]
+  },
+  {
+    renderFunction: renderDogs,
+    predicates: [isFluffy, doesLikeWalks]
+  }
+];
+```
+
+We can leverage reduce() to check each predicate against the state, to determine if all predicates are true.
+This will be used to make our reducer function, which will evaluate to false if any of the predicates in the array are false, since false && any number of true is false.
+The function also needs to curry the props into the scope of the function so it can run the predicate against the props.
+
+```jsx
+const predicateReducerHigherOrder = props => (result, predicate) => predicate(props) && result;
+```
+
+In the render function, we just pass the props to the curried function, then find the first result where all the predicates evaluate to true.
+```jsx
+const predicateReducer = predicateReducerHigherOrder(props);
+const result = petRendering.find(petEntry => petEntry.predicates.reduce(predicateReducer, true));
+return result ? result.renderFunction(props.petName) : '';
+```
+For each entry in the pet rendering array, we get the predicates list for the pet type, and then use reduce() to see if they all are true.
+I really love this pattern even though it seems more verbose initially. I find it works exceptionally well when you need to check several aspects of state, but not enough to substantiate using an entire rules engine.
+
+</div>
